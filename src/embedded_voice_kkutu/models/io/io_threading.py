@@ -83,13 +83,11 @@ class ConcurrencyIO:
             if self.audio_record_callback and False:
                 data = self.audio_record_callback(frames)
 
-            print(data)
             if "text" not in data:
                 continue
             if data["text"] == "":
                 continue
             data = data["text"].replace(" ", "")
-            print(data)
 
             self.record_result.append(RecordStruct(RecordType.audio_record, data))
             self.event.set()

@@ -11,7 +11,6 @@ os.environ["ALSA_CARD"] = "default"
 
 is_adjust_mode = bool("ADJUST_MODE" in os.environ and os.environ["ADJUST_MODE"])
 
-
 class RecordHandler:
     CHUNK = 1024
     CHANNELS = 1
@@ -39,8 +38,6 @@ class RecordHandler:
 
         audio_data = indata[:, 0]
         rms = self.calculate_rms(audio_data)
-
-        print(rms)
 
         if not self.is_speaking:
             self.previous_frames.extend(audio_data)
@@ -79,7 +76,11 @@ class RecordHandler:
             while self.recording:
                 sd.sleep(100)
 
-        return np.array(self.frames, dtype=np.float32) / 32768.0
+        audio_data = np.array(self.frames)
+        if len(audio_data) > 0:
+            audio_data = audio_data / np.max(np.abs(audio_data))
+
+        return audio_data
 
     def calculate_rms(self, data):
         if len(data) == 0:

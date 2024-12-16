@@ -8,40 +8,46 @@ Voice KKuTu - Team Project for Embedded Software Lecture
 
 [`rye`](https://rye.astral.sh) is required for run this project easily.
 
+**Required:**
 ```sh
-# Fetch KKuTu Repository
+# 1. Fetch KKuTu Repository
 git module init
 git module update
 
-# Install dependencies
+# 2. Install dependencies
 rye sync
 
-# Convert word database from KKuTu DB
+# 3. Convert word database from KKuTu DB*
 rye run convert
 
-# Download and convert whisper model
+# 4. Download and convert whisper model**
 rye run make-model
 ```
+\* [&lt;Convert word data from KKuTu DB&gt;](#convert-word-data-from-kkutu-db) Section.  
+\*\* [&lt;Download and convert Whisper model or just download from Hugging Face&gt;](#download-and-convert-whisper-model-or-just-download-from-hugging-face) Section.  
 
-**When you clone for developing:**
+
+**(Optional) When you clone for developing:**
 ```sh
 # Install pre commit script for linting
 rye run pre-commit
 ```
 
+## Details
+### Commands
 If below commands are not executed sucessfully, Try `rye sync` first.
 
-**Commands**
-```
+```sh
 rye run app
 rye run convert
 rye run clean
 rye run black
 rye run pre-commit
 rye run make-model
+rye run stt
 ```
 
-### Convert word data from KKuTu DB
+### Convert word data from KKuTu DB\*
 This repository contains KKuTu repository as submodule.  
 
 Word data for KKuTu server can be migrated for this project with converting script.
@@ -52,7 +58,7 @@ git submodule update
 rye run convert
 ```
 
-### Download and convert Whisper model or just download from Hugging Face
+### Download and convert Whisper model or just download from Hugging Face\*\*
 
 ```sh
 rye run make-model
@@ -121,29 +127,25 @@ pip install torch torchvision torchaudio --index-url <https://download.pytorch.o
 
 ```
 
-
-## Raspberry Pi Setting
-
-### Audio Activation
-```
+### Activate audio
+```sh
 # Enable auido (loads snd_bcm2835)
 dtparam=audio=on
 ```
-remove comments from `boot/config.txt`
+Remove comments from `boot/config.txt`
 
 ```sh
 sudo /etc/init.d/alsa-utils reset
 sudo reboot
 ```
 
-
-### Audio Output
+### Set audio output device using `raspi-config`
 ```sh
 sudo raspi-config
 ```
 System Options > Audio > [choose the audio output]
 
-### Audio Output Test
+### Test audio output is enabled
 Run TTS
 ```sh
 sudo apt-get install espeak

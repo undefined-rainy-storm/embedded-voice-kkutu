@@ -40,6 +40,8 @@ class RecordHandler:
         audio_data = indata[:, 0]
         rms = self.calculate_rms(audio_data)
 
+        print(rms)
+
         if not self.is_speaking:
             self.previous_frames.extend(audio_data)
             if time.time() - self.initial_silence_start > self.INITIAL_SILENCE_DURATION:

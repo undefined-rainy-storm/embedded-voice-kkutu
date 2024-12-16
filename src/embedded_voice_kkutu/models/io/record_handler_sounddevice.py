@@ -79,7 +79,7 @@ class RecordHandler:
             while self.recording:
                 sd.sleep(100)
 
-        return np.array(self.frames, dtype=np.float32)
+        return np.array(self.frames, dtype=np.float32) / 32768.0
 
     def calculate_rms(self, data):
         if len(data) == 0:
